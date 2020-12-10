@@ -2,7 +2,68 @@
 
 
 $font-face: 'Lato', sans-serif;
+$bold-weight: 700;
 
 body {
   font-family: $font-face;
+}
+
+h2 {
+  font-weight: $bold-weight;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  border-radius: 5px 5px 0 0;
+  width: 100%;
+}
+p {
+  color: #A5AEB7;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.3s;
+  margin: 40px;
+  width: 30%;
+  &:hover {
+    box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
+  }
+}
+
+.container {
+  padding: 5px 5% 5px;
+}
+
+.circles {
+  margin-bottom: 0;
+  size: 5px;
+}
+
+.card-title {
+  margin-top: 5px;
+}
+
+.card-content {
+
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.two-column-div {
+  display: flex;
+  padding-top: 5px;
+  font-weight: $bold-weight;
+}
+
+.slide-bottom-content {
+  flex: 1;
 }

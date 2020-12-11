@@ -5,10 +5,10 @@ import {faCircle} from "@fortawesome/free-solid-svg-icons";
 import '../css/styling.scss';
 
 function createDate(date) {
-    console.log(date);
+    //console.log(date);
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const dateTime = new Date(date*1000);
-    console.log(dateTime.toLocaleDateString("en-US"));
+    //console.log(dateTime.toLocaleDateString("en-US"));
     return months[dateTime.getMonth()] + " " +  dateTime.getDate() + ", " + dateTime.getFullYear();
 }
 
@@ -18,11 +18,17 @@ function App(props) {
 
     if (slides) {
         return (
-            <div>
+            <div className="cards">
                 {slides.map(slide =>
                     <div className="card" key={slide.id}>
-                        <img src={slide.thumbnail.small} alt="ceva poza de fundal"/>
-
+                        <div className="image-container">
+                            <img src={slide.thumbnail.small} alt="ceva poza de fundal"/>
+                            <div className="overlay">
+                                <div className="overlay-text">
+                                    <h2>Learn More</h2>
+                                </div>
+                            </div>
+                        </div>
                         <div className="container">
                             <li>
                                 <FontAwesomeIcon icon={faCircle} className="circles" style={{color:'#0099cc'}} />

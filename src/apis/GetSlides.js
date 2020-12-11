@@ -9,7 +9,7 @@ function GetSlides()  {
                 method: "GET"
             }).then(res => res.json())
             .then(response => {
-                console.log(response);
+                //console.log(response);
                 setResources(response);
             }).catch(error => console.log(error));
     }, []);

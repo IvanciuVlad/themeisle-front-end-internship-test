@@ -13,46 +13,46 @@ function createDate(date) {
 
 
 function App(props) {
-    const [modalState, setModalState] = useState(false);
-    const [modalCard, setModalCard] = useState({});
-    console.log(modalState);
-    const slides = getSlides();
+    
+    const [modalCard, setModalCard] = useState(null);
+    const [slides, setSlides] = useState([]);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            setSlides( await getSlides());
+        }
+        fetchData();
+
+
+    }, [])
 
     useEffect(() => {
 
         window.onclick = (event) => {
-
-            const closeModal = () => {
-                if(modalState)
-                    setModalState(false);
-            }
-
             let modal = document.getElementsByClassName("modal")[0]
 
             if(event.target === modal) {
                 modal.style.display = "none"
-                closeModal();
+                setModalCard(null);
             }
         }
 
-    }, [modalState]);
+    }, [modalCard]);
 
     const closeModal = () => {
-        if(modalState)
-            setModalState(false);
+        setModalCard(null)
     }
-
 
     if (slides) {
         return [
             <div className="cards">
-                {slides.map(slide =>
-                    <div className="card" key={slide.id}>
+                {slides.map((slide) =>
+                    <div className="card" name={slide.id} key={slide.id}>
                         <div className="image-container" >
                             <img src={slide.thumbnail.small} alt="small thumbnail with background"/>
                             <div className="overlay">
                                 <div className="overlay-text">
-                                    <h2 onClick={() => {setModalCard(slide); setModalState(true)}}>Learn More</h2>
+                                    <h2 onClick={() => setModalCard(slide)}>Learn More</h2>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ function App(props) {
                                 <FontAwesomeIcon icon={faCircle} className="circles" style={{color:'#cccc00'}} />
                             </li>
                             <li>
-                                <h2 className="card-title" onClick={() => {setModalCard(slide); setModalState(true) }}>{slide.title}</h2>
+                                <h2 className="card-title" onClick={() => setModalCard(slide) }>{slide.title}</h2>
                             </li>
                             <li className="card-content">
                                 <p>{slide.content}</p>
@@ -76,8 +76,13 @@ function App(props) {
                         </div>
                     </div>
                 )}
+                {
+                modalCard && (
+                    <Modal card={modalCard} closeModal={closeModal} />
+                )
+            }
             </div>,
-            <Modal show={modalState} card={modalCard} closeModal={closeModal()} />
+            
         ];
     } else {
         return (

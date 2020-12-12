@@ -4,9 +4,6 @@ import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import '../css/styling.scss';
 
 function Modal(props) {
-
-    console.log(props.card);
-    if(props.show) {
         return (
             <div className="modal">
                 <div className="modal-card">
@@ -30,9 +27,7 @@ function Modal(props) {
                 </div>
             </div>
         );
-    } else {
-        return null;
-    }
+    
 }
 
 export default Modal;

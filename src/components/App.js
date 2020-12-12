@@ -1,31 +1,58 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import getSlides from "../apis/GetSlides";
+import Modal from "./Modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from "@fortawesome/free-solid-svg-icons";
 import '../css/styling.scss';
 
 function createDate(date) {
-    //console.log(date);
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const dateTime = new Date(date*1000);
-    //console.log(dateTime.toLocaleDateString("en-US"));
     return months[dateTime.getMonth()] + " " +  dateTime.getDate() + ", " + dateTime.getFullYear();
 }
 
 
 function App(props) {
+    const [modalState, setModalState] = useState(false);
+    const [modalCard, setModalCard] = useState({});
+    console.log(modalState);
     const slides = getSlides();
 
+    useEffect(() => {
+
+        window.onclick = (event) => {
+
+            const closeModal = () => {
+                if(modalState)
+                    setModalState(false);
+            }
+
+            let modal = document.getElementsByClassName("modal")[0]
+
+            if(event.target === modal) {
+                modal.style.display = "none"
+                closeModal();
+            }
+        }
+
+    }, [modalState]);
+
+    const closeModal = () => {
+        if(modalState)
+            setModalState(false);
+    }
+
+
     if (slides) {
-        return (
+        return [
             <div className="cards">
                 {slides.map(slide =>
                     <div className="card" key={slide.id}>
-                        <div className="image-container">
-                            <img src={slide.thumbnail.small} alt="ceva poza de fundal"/>
+                        <div className="image-container" >
+                            <img src={slide.thumbnail.small} alt="small thumbnail with background"/>
                             <div className="overlay">
                                 <div className="overlay-text">
-                                    <h2>Learn More</h2>
+                                    <h2 onClick={() => {setModalCard(slide); setModalState(true)}}>Learn More</h2>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +62,7 @@ function App(props) {
                                 <FontAwesomeIcon icon={faCircle} className="circles" style={{color:'#cccc00'}} />
                             </li>
                             <li>
-                                <h2 className="card-title">{slide.title}</h2>
+                                <h2 className="card-title" onClick={() => {setModalCard(slide); setModalState(true) }}>{slide.title}</h2>
                             </li>
                             <li className="card-content">
                                 <p>{slide.content}</p>
@@ -49,8 +76,9 @@ function App(props) {
                         </div>
                     </div>
                 )}
-            </div>
-        );
+            </div>,
+            <Modal show={modalState} card={modalCard} closeModal={closeModal()} />
+        ];
     } else {
         return (
             <div>Loading...</div>
